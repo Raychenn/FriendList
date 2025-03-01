@@ -54,3 +54,36 @@ struct Friend: Codable {
         return isTop == "1"
     }
 }
+
+extension Array where Element == Friend {
+    
+    func removeDuplicateFriends() -> [Friend] {
+        var resultDict: [String: Friend] = [:]
+        
+        for friend in self {
+            if let existingFriend = resultDict[friend.id] {
+                // Compare the updateDate of the existing friend and the current friend
+                if let existingDate = existingFriend.formattedUpdateDate,
+                   let newDate = friend.formattedUpdateDate,
+                   newDate > existingDate {
+                    // If the current friend has a later date, update the dictionary with the new friend
+                    resultDict[friend.id] = friend
+                }
+            } else {
+                resultDict[friend.id] = friend
+            }
+        }
+        
+        return Array(resultDict.values)
+    }
+    
+    func invitedFriends() -> [Friend] {
+        return self.filter { $0.status != .sentInvitation }
+    }
+    
+    func invitingFriends() -> [Friend] {
+        return self.filter { $0.status == .sentInvitation }
+    }
+    
+}
+
