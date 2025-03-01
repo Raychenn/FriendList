@@ -160,6 +160,9 @@ extension MainContainerViewController {
     }
     
     private func compositeCardViews(with friends: [Friend]) {
+        cardsContainerView.subviews.forEach { $0.removeFromSuperview() }
+        cardViews.removeAll()
+        
         for (index, friend) in friends.enumerated() {
             let cardView = CardInvitationView(friend: friend)
             cardView.translatesAutoresizingMaskIntoConstraints = false
@@ -322,7 +325,6 @@ extension MainContainerViewController {
             }
             
             if index == cardViews.count - 1 {
-                // Update the top anchor for the friendListViewController
                 updateFriendListTopAnchor(yOffset: yOffset)
             }
         }
@@ -331,7 +333,7 @@ extension MainContainerViewController {
     private func calculateYOffset(for index: Int) -> CGFloat {
         return isExpanded ?
         CGFloat(index) * (CardInvitationView.cardHeight + CardInvitationView.cardSpacing) :
-        CardInvitationView.peekHeight
+        (CardInvitationView.peekHeight - CardInvitationView.cardSpacing)
     }
     
     private func updateFriendListTopAnchor(yOffset: CGFloat) {
