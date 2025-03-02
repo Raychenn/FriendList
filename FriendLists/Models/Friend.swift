@@ -46,7 +46,7 @@ struct Friend: Codable {
     
     var formattedUpdateDate: Date? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd" 
+        formatter.dateFormat = "yyyy/MM/dd"
         return formatter.date(from: updateDate)
     }
     
