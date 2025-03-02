@@ -75,7 +75,7 @@ final class FriendListViewModel: FriendListViewModelProtocol {
         }
     }
     
-    func fetchFriends() {
+    private func fetchFriends() {
         onAsynchronousTaskLoading?()
         service.fetchCombinedFriendLists { result in
             self.onAsynchronousTaskFinished?()
@@ -88,7 +88,7 @@ final class FriendListViewModel: FriendListViewModelProtocol {
         }
     }
     
-    func fetchFriendsWithInvitation() {
+    private func fetchFriendsWithInvitation() {
         onAsynchronousTaskLoading?()
         service.fetchFrindListsWithInvitation { result in
             self.onAsynchronousTaskFinished?()
