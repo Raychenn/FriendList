@@ -336,7 +336,7 @@ extension MainContainerViewController {
     private func calculateYOffset(for index: Int) -> CGFloat {
         return isExpanded ?
         CGFloat(index) * (CardInvitationView.cardHeight + CardInvitationView.cardSpacing) :
-        (CardInvitationView.peekHeight - CardInvitationView.cardSpacing)
+        0
     }
     
     private func updateFriendListTopAnchor(yOffset: CGFloat) {
