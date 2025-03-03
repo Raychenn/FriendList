@@ -12,10 +12,12 @@ class MainContainerViewController: UIViewController {
     // MARK: - properties
     
     var viewModel: FriendListViewModelProtocol
-        
+            
     private var underlineTabViewTopAnchor: NSLayoutConstraint?
     
     private var isExpanded = false
+    
+    private let initialUnderlineTabViewTopAnchorConstant: CGFloat = 15 + (BadgeView.height / 2)
     
     private var cardViews: [CardInvitationView] = []
     
@@ -129,11 +131,12 @@ extension MainContainerViewController {
     }
     
     private func setupUnderlineTabUI(with option: HttpRequestOption) {
+        underlineTabView.removeFromSuperview()
         view.addSubview(underlineTabView)
 
         if option == .friendsWithInvitation {
             underlineTabViewTopAnchor = underlineTabView.topAnchor.constraint(equalTo: cardsContainerView.bottomAnchor,
-                                                                              constant: 15 + (BadgeView.height / 2))
+                                                                              constant: initialUnderlineTabViewTopAnchorConstant)
         } else {
             underlineTabViewTopAnchor = underlineTabView.topAnchor.constraint(equalTo: profileView.bottomAnchor,
                                                                               constant: 23)
@@ -247,7 +250,7 @@ extension MainContainerViewController {
             guard let self else {
                 return
             }
-            
+
             self.compositeCardViews(with: friends)
         }
         
@@ -358,6 +361,8 @@ extension MainContainerViewController {
 extension MainContainerViewController: FriendListViewControllerDelegate {
     
     func friendListViewControllerOnRefresh(_ controller: FriendListViewController) {
+        isExpanded = false
+        updateFriendListTopAnchor(yOffset: initialUnderlineTabViewTopAnchorConstant)
         controller.refreshControl.beginRefreshing()
         viewModel.fetchFriendsList(from: viewModel.selectedRequestOption ?? .noFriends)
     }
